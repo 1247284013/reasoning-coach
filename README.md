@@ -3,9 +3,7 @@
 Reasoning Coach is an AI-supported, adaptive learning-to-decision scaffold for higher-education design engineering. It helps students turn project material, external learning resources, and AI-generated outputs into project-specific decisions that can be checked through practical evidence.
 
 The central design position is simple: **the learner answers first, AI adds one focused note only when it can improve the next action, and the learner keeps the final decision.**
-<img width="1457" height="805" alt="截屏2026-10-12 05 35 43" src="https://github.com/user-attachments/assets/8de76769-233a-4fed-8df6-31638daa24ea" />
-
-
+1
 ## Why this project exists
 
 Generative AI can make explanations and possible solutions available very early in a project. That speed is useful, but it can compress the learner's own comparison, judgement, testing, and revision. Reasoning Coach keeps AI support attached to the active project while preserving the student's cognitive responsibility.
@@ -39,6 +37,8 @@ The prototype is based on seven requirements derived from a questionnaire and fo
 The interaction follows a recurring rhythm:
 
 `live uncertainty -> relevant condition -> smallest observable check -> learner-owned action -> evidence and review`
+<img width="1262" height="651" alt="截屏2026-10-12 05 38 59" src="https://github.com/user-attachments/assets/5469aecc-138b-4c54-987c-d46ad5c885dd" />
+
 
 ## AI guidance rules
 
