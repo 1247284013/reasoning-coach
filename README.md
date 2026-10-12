@@ -1,8 +1,10 @@
-# Reasoning Coach
+<img width="1457" height="805" alt="截屏2026-10-12 05 35 43" src="https://github.com/user-attachments/assets/f99d29f1-2c11-4dee-8877-cde02e5d8fdd" /># Reasoning Coach
 
 Reasoning Coach is an AI-supported, adaptive learning-to-decision scaffold for higher-education design engineering. It helps students turn project material, external learning resources, and AI-generated outputs into project-specific decisions that can be checked through practical evidence.
 
 The central design position is simple: **the learner answers first, AI adds one focused note only when it can improve the next action, and the learner keeps the final decision.**
+<img width="1457" height="805" alt="截屏2026-10-12 05 35 43" src="https://github.com/user-attachments/assets/8de76769-233a-4fed-8df6-31638daa24ea" />
+
 
 ## Why this project exists
 
