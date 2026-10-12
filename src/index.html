@@ -1,0 +1,776 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI Reasoning Coach</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <main class="desktop-shell" aria-label="Desktop prototype">
+    <aside class="coach-window" aria-label="AI reasoning coach">
+      <header class="coach-header">
+        <div>
+          <div class="mark" id="headerMark">Reasoning Coach</div>
+          <h1 id="headerTitle">Start learning</h1>
+          <p class="coach-subtitle" id="headerSubtitle">Choose how you want to begin.</p>
+        </div>
+        <div class="window-controls">
+          <button class="mode-button" id="settingsButton" type="button" aria-label="Coach settings" title="Coach settings" hidden>
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="7.5" cy="15.5" r="3.5" />
+              <path d="m10 13 8.8-8.8" />
+              <path d="m14.8 9 2.2 2.2" />
+              <path d="m17 6.8 2.2 2.2" />
+            </svg>
+          </button>
+          <button class="mode-button" id="modeToggle" type="button" aria-label="Shrink window" title="Shrink window">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M8 3v5H3" />
+              <path d="M16 21v-5h5" />
+              <path d="M3 8l5-5" />
+              <path d="M21 16l-5 5" />
+            </svg>
+          </button>
+          <button class="icon-button" id="supportLensButton" type="button" aria-label="Why this step matters" title="Why this step matters">?</button>
+        </div>
+      </header>
+
+      <nav class="main-entry-nav" aria-label="Main sections">
+        <button class="nav-toggle" id="mainNavToggle" type="button" aria-label="Home, show entries" title="Home / show">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 11.5 12 5l8 6.5" />
+            <path d="M6.5 10.5V20h11v-9.5" />
+            <path d="M10 20v-5h4v5" />
+          </svg>
+        </button>
+        <button class="active" id="mainNewProjectButton" type="button" data-main-entry="new" aria-label="New Project" title="New Project">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 5v14" />
+            <path d="M5 12h14" />
+          </svg>
+          <span>New Project</span>
+        </button>
+        <button id="mainHistoryButton" type="button" data-main-entry="history" aria-label="My learning history" title="My learning history">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M5 5h14v14H5z" />
+            <path d="M8 9h8" />
+            <path d="M8 13h5" />
+            <path d="M8 17h7" />
+          </svg>
+          <span>History</span>
+        </button>
+        <button id="mainInfoButton" type="button" data-main-entry="info" aria-label="My Information" title="My Information">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z" />
+            <path d="M4 21a8 8 0 0 1 16 0" />
+          </svg>
+          <span>Information</span>
+        </button>
+      </nav>
+
+      <section class="onboarding-overlay" id="onboardingOverlay" aria-label="Learner setup">
+        <div class="onboarding-card">
+          <div class="onboarding-intro" id="onboardingIntro" aria-label="Welcome to Reasoning Coach">
+            <span class="onboarding-intro-mark" aria-hidden="true">✦</span>
+            <div>
+              <span class="onboarding-kicker">Reasoning Coach</span>
+              <h2>Build your project thinking as you learn.</h2>
+              <p>Share a little about your current skills first. The guided tutorial will begin straight after.</p>
+            </div>
+            <div class="onboarding-intro-actions">
+              <button class="primary" id="onboardingStartSetup" type="button">Continue</button>
+            </div>
+          </div>
+
+          <div class="quick-learner-setup" id="learnerSetup" aria-label="Learner setup" hidden>
+            <div class="quick-setup-head">
+              <span>Set up your learning</span>
+              <i class="setup-mark" aria-hidden="true"></i>
+            </div>
+            <div class="onboarding-section">
+              <label>Year of study</label>
+              <div class="quick-profile-tags" id="profileYear" aria-label="Year of study">
+                <button type="button" data-profile-year="Year 1">Year 1</button>
+                <button type="button" data-profile-year="Year 2">Year 2</button>
+                <button type="button" data-profile-year="Year 3">Year 3</button>
+                <button type="button" data-profile-year="Year 4+">Year 4+</button>
+                <button type="button" data-profile-year="Postgraduate">Postgraduate</button>
+              </div>
+            </div>
+            <div class="onboarding-section">
+              <label>What are you learning with?</label>
+              <div class="quick-profile-tags" id="profileFocus" aria-label="Learning focus">
+                <button type="button" data-profile-focus="Hardware">Hardware</button>
+                <button type="button" data-profile-focus="CAD">CAD</button>
+                <button type="button" data-profile-focus="Coding">Coding</button>
+                <button type="button" data-profile-focus="AI resources">AI resources</button>
+                <button type="button" data-profile-focus="Research">Research</button>
+              </div>
+            </div>
+            <div class="onboarding-section skill-setup-section">
+              <label>Current confidence</label>
+              <div class="quick-skill-row" aria-label="Arduino skill level">
+                <span>Arduino</span>
+                <div class="quick-skill-control">
+                  <input type="range" min="0" max="100" step="1" value="35" data-profile-skill="Arduino" aria-label="Arduino skill level" />
+                </div>
+                <em>Beginner</em>
+              </div>
+              <div class="quick-skill-row" aria-label="CAD skill level">
+                <span>CAD</span>
+                <div class="quick-skill-control">
+                  <input type="range" min="0" max="100" step="1" value="55" data-profile-skill="CAD" aria-label="CAD skill level" />
+                </div>
+                <em>Basic</em>
+              </div>
+              <div class="quick-skill-row" aria-label="Coding skill level">
+                <span>Coding</span>
+                <div class="quick-skill-control">
+                  <input type="range" min="0" max="100" step="1" value="30" data-profile-skill="Coding" aria-label="Coding skill level" />
+                </div>
+                <em>Beginner</em>
+              </div>
+            </div>
+            <button class="primary onboarding-continue" id="onboardingContinue" type="button">Continue</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="product-tour" id="productTour" aria-label="Reasoning Coach quick tour" hidden>
+        <div class="tour-spotlight" id="tourSpotlight" aria-hidden="true">
+          <span class="tour-target-cursor">
+            <svg viewBox="0 0 32 40" aria-hidden="true"><path d="M4 2.5 28 22l-11.2 1.6 6.4 11.4-5.2 2.8-6.2-11.5-7.8 8.2Z" /></svg>
+          </span>
+        </div>
+        <div class="tour-secondary-spotlights" id="tourSecondarySpotlights" aria-hidden="true"></div>
+        <div class="product-tour-card">
+          <div class="product-tour-topline">
+            <span id="tourCount">1 / 4</span>
+            <button class="tour-skip" id="tourSkip" type="button">Skip tour</button>
+          </div>
+          <div class="product-tour-copy" id="tourCopy"></div>
+          <div class="product-tour-footer">
+            <div class="tour-dots" id="tourDots" aria-hidden="true"></div>
+            <div class="tour-actions">
+              <button class="secondary tour-back" id="tourBack" type="button">Back</button>
+              <button class="primary" id="tourNext" type="button">Next</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="home-panel" id="homePanel">
+        <section class="home-section home-primary" data-home-tab="new">
+          <div class="branch-workspace">
+            <div class="empty-start-guide" id="emptyStartGuide">
+              <div class="home-greeting" aria-label="Welcome">
+                <div class="home-greeting-line"><span class="home-greeting-emoji" aria-hidden="true">👋</span><span>Welcome back</span></div>
+                <h2>What are you making today?</h2>
+                <p>Start with a project.<br />Learn by building and deciding.</p>
+              </div>
+              <button class="home-create-hero" id="emptyCreateProjectButton" type="button" aria-label="Create project">
+                <span class="create-folder-icon">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M3.5 7.5h6l1.8 2h9.2v8.5a2 2 0 0 1-2 2h-15a2 2 0 0 1-2-2V9.5a2 2 0 0 1 2-2Z" />
+                    <path d="M12 12.5v5" />
+                    <path d="M9.5 15h5" />
+                  </svg>
+                </span>
+                <span>
+                  <strong>New project</strong>
+                </span>
+              </button>
+
+              <div class="home-product-preview" id="homeProductPreview" data-intro-slide="upload" aria-label="Coach preview">
+                <div class="home-preview-tabs" aria-label="Preview pages">
+                  <button class="active" type="button" data-intro-slide="upload" title="Upload project material">
+                    <span>1</span>
+                    <i>Upload</i>
+                  </button>
+                  <button type="button" data-intro-slide="plan" title="Generate a learning plan">
+                    <span>2</span>
+                    <i>Plan</i>
+                  </button>
+                  <button type="button" data-intro-slide="chain" title="Build your reasoning">
+                    <span>3</span>
+                    <i>Reasoning</i>
+                  </button>
+                  <button type="button" data-intro-slide="result" title="Save a student-owned result">
+                    <span>4</span>
+                    <i>Result</i>
+                  </button>
+                </div>
+                <div class="preview-caption">
+                  <strong id="previewCaptionTitle">Start from project material</strong>
+                </div>
+                <div class="preview-stage">
+                  <div class="preview-slide preview-upload-core" data-slide-panel="upload">
+                    <div class="mock-core-window">
+                      <div class="mock-upload-box">
+                        <span></span>
+                      </div>
+                      <div class="mock-upload-lines">
+                        <b></b>
+                        <b></b>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="preview-slide preview-plan-core" data-slide-panel="plan">
+                    <div class="mock-core-window">
+                      <div class="mock-ai-badge">
+                        <i></i>
+                        <span></span>
+                      </div>
+                      <div class="mock-plan-list">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                      </div>
+                      <div class="mock-plan-start"></div>
+                    </div>
+                  </div>
+                  <div class="preview-slide preview-chain-core" data-slide-panel="chain">
+                    <div class="mock-core-window">
+                      <div class="mock-core-dots">
+                        <i></i>
+                        <i></i>
+                        <i></i>
+                        <i></i>
+                      </div>
+                      <div class="mock-core-question"></div>
+                      <div class="mock-core-chain">
+                        <span></span>
+                        <em></em>
+                        <span></span>
+                        <em></em>
+                        <span></span>
+                      </div>
+                      <div class="mock-student-input">
+                        <i></i>
+                        <b></b>
+                        <b></b>
+                      </div>
+                      <div class="mock-comment-bubble">
+                        <b></b>
+                        <b></b>
+                        <b></b>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="preview-slide preview-result-core" data-slide-panel="result">
+                    <div class="mock-core-window">
+                      <div class="mock-decision-options">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                      </div>
+                      <div class="mock-student-choice">
+                        <i></i>
+                        <b></b>
+                      </div>
+                      <div class="mock-result-card">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="project-shelf" id="projectShelf" aria-label="Projects" hidden>
+              <button class="project-file create-project-file" id="newProjectButton" type="button" title="Create project">
+                <i></i>
+                <span>
+                  <strong>New project</strong>
+                </span>
+              </button>
+            </div>
+
+            <div class="project-detail" id="projectDetail" hidden>
+              <div class="project-detail-head">
+                <strong id="taskProjectName">No project</strong>
+              </div>
+              <div class="uploaded-strip project-resource-row">
+                <div class="strip-head">
+                  <span>Project files</span>
+                  <button class="small-icon-button" id="addMaterialButton" type="button" aria-label="Add material" title="Add material">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M12 5v14" />
+                      <path d="M5 12h14" />
+                    </svg>
+                  </button>
+                </div>
+                <div class="uploaded-files" id="uploadedFiles">
+                  <span class="uploaded-empty">No material yet</span>
+                </div>
+              </div>
+              <div class="task-strip project-task-row">
+                <div class="task-head">
+                  <span>Tasks in this project</span>
+                  <button class="small-icon-button" id="createTaskButton" type="button" aria-label="Create task" title="Create task">
+                      <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M12 5v14" />
+                        <path d="M5 12h14" />
+                      </svg>
+                  </button>
+                </div>
+                <div class="task-list" id="taskList" aria-label="Tasks in selected project"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="home-section home-secondary history-section" data-home-tab="history">
+          <div class="knowledge-map-card" aria-label="Knowledge map and learning gaps">
+            <div class="knowledge-map-head">
+              <div>
+                <strong>Knowledge map</strong>
+              </div>
+              <div class="knowledge-map-actions">
+                <div class="map-filter-menu" id="knowledgeMapFilter">
+                  <button class="map-filter-trigger" id="knowledgeMapFilterToggle" type="button" aria-expanded="false" aria-controls="knowledgeMapFilterOptions" title="Filter knowledge nodes">
+                    <span id="knowledgeMapFilterLabel">All</span>
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m7 10 5 5 5-5" /></svg>
+                  </button>
+                  <div class="map-filter-options" id="knowledgeMapFilterOptions" role="menu" hidden>
+                    <button type="button" data-map-filter="all" role="menuitem">All</button>
+                    <button type="button" data-map-filter="learning" role="menuitem">Learning</button>
+                    <button type="button" data-map-filter="verified" role="menuitem">Verified</button>
+                    <button type="button" data-map-filter="struggling" role="menuitem">Needs review</button>
+                  </div>
+                </div>
+                <button class="small-icon-button map-expand-button" id="openKnowledgeMap" type="button" aria-label="Open full knowledge map" title="Open full knowledge map">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H3v5" /><path d="M16 21h5v-5" /><path d="M3 8 9 2" /><path d="m15 22 6-6" /></svg>
+                </button>
+              </div>
+            </div>
+            <div class="knowledge-map-summary" id="knowledgeMapSummary"></div>
+            <div class="map-canvas" id="knowledgeMapCanvas" aria-label="Knowledge network"></div>
+            <div class="knowledge-node-detail" id="knowledgeNodeDetail" hidden></div>
+          </div>
+          <div class="map-review-panel" aria-label="Learning review focus">
+            <div class="map-review-head">
+              <div>
+                <span>Review focus</span>
+                <strong>Pick up one useful thread</strong>
+              </div>
+              <button type="button" id="showWeakNodes">View review nodes</button>
+            </div>
+            <div class="map-review-list" id="mapReviewList"></div>
+          </div>
+          <div class="history-area">
+            <div class="history-area-head"><strong>Recent learning</strong></div>
+            <div class="history-row" id="learningHistory"></div>
+          </div>
+        </section>
+
+        <section class="home-section home-secondary" data-home-tab="info">
+          <div class="profile-card">
+            <div class="profile-hero">
+              <div class="profile-avatar" aria-hidden="true">DE</div>
+              <div>
+                <span>Learning profile</span>
+                <strong id="profileIdentity">Design engineering · Year 1</strong>
+              </div>
+              <button class="small-icon-button" id="editProfileButton" type="button" aria-label="Edit profile" title="Edit profile">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M4 20h4l10.5-10.5a2.2 2.2 0 0 0-3.1-3.1L5 16.8 4 20Z" />
+                  <path d="M14 7l3 3" />
+                </svg>
+              </button>
+            </div>
+            <div class="user-tags" id="profileTags" aria-label="Learner tags">
+              <span>Focus: hardware</span>
+            </div>
+            <section class="profile-capability" aria-label="Capability overview">
+              <div class="profile-section-head"><strong>Capability overview</strong><span id="profileCapabilitySignal"></span></div>
+              <div class="profile-radar" id="profileRadar" aria-label="Skill confidence radar chart"></div>
+            </section>
+            <div class="profile-stats" id="profileStats" aria-label="Learning profile summary"></div>
+            <div class="profile-edit-panel" id="profileEditPanel" hidden>
+              <label>Year of study
+                <select id="profileYearSelect">
+                  <option value="">Select year</option><option>Year 1</option><option>Year 2</option><option>Year 3</option><option>Year 4</option><option>Postgraduate</option>
+                </select>
+              </label>
+              <div class="profile-focus-picker" id="profileFocusPicker" aria-label="Learning focus">
+                <button type="button" data-profile-focus-choice="Hardware">Hardware</button>
+                <button type="button" data-profile-focus-choice="Coding">Coding</button>
+                <button type="button" data-profile-focus-choice="CAD">CAD</button>
+                <button type="button" data-profile-focus-choice="Research">Research</button>
+              </div>
+              <button class="primary profile-save" id="saveProfileButton" type="button">Save profile</button>
+            </div>
+            <div class="profile-row skill-heading">
+              <span>Skill confidence</span>
+              <button class="small-icon-button" id="addProfileSkillButton" type="button" aria-label="Add skill" title="Add skill">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M12 5v14" />
+                  <path d="M5 12h14" />
+                </svg>
+              </button>
+            </div>
+            <div class="skill-list" id="profileSkillList"></div>
+            <div class="skill-add-form" id="profileSkillForm" hidden>
+              <input id="profileSkillName" type="text" maxlength="26" placeholder="Skill or tool" aria-label="Skill or tool" />
+              <input id="profileSkillLevel" type="range" min="0" max="100" value="35" aria-label="Skill confidence" />
+              <button class="secondary" id="saveProfileSkillButton" type="button">Add</button>
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <section class="knowledge-map-modal" id="knowledgeMapModal" hidden aria-label="Full knowledge map">
+        <div class="knowledge-map-modal-card" role="dialog" aria-modal="true" aria-labelledby="knowledgeMapModalTitle">
+          <div class="knowledge-map-modal-head">
+            <div>
+              <strong id="knowledgeMapModalTitle">Knowledge map</strong>
+            </div>
+            <button class="small-icon-button" id="closeKnowledgeMap" type="button" aria-label="Close full knowledge map" title="Close">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" /></svg>
+            </button>
+          </div>
+          <div class="knowledge-map-modal-tools">
+            <div class="map-filter-tabs" id="knowledgeMapExpandedFilter" aria-label="Filter knowledge nodes">
+              <button type="button" data-expanded-map-filter="all">All</button>
+              <button type="button" data-expanded-map-filter="learning">Learning</button>
+              <button type="button" data-expanded-map-filter="verified">Verified</button>
+              <button type="button" data-expanded-map-filter="struggling">Review</button>
+            </div>
+            <div class="knowledge-map-summary" id="knowledgeMapExpandedSummary"></div>
+          </div>
+          <div class="map-canvas map-canvas-expanded" id="knowledgeMapExpandedCanvas" aria-label="Full knowledge network"></div>
+          <div class="knowledge-node-detail knowledge-node-detail-expanded" id="knowledgeMapExpandedDetail" hidden></div>
+        </div>
+      </section>
+
+      <section class="support-lens-modal" id="supportLensModal" hidden aria-label="Scaffold support">
+        <div class="support-lens-card" role="dialog" aria-modal="true" aria-labelledby="supportLensTitle">
+          <div class="support-lens-head">
+            <div>
+              <span>Scaffold lens</span>
+              <strong id="supportLensTitle">Why this step matters</strong>
+            </div>
+            <button class="small-icon-button" id="closeSupportLens" type="button" aria-label="Close scaffold support" title="Close">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" /></svg>
+            </button>
+          </div>
+          <div class="support-lens-context" id="supportLensContext"></div>
+          <div class="support-lens-flow" id="supportLensFlow"></div>
+          <div class="support-lens-difference">
+            <span aria-hidden="true">↗</span>
+            <p>It turns your project material, actions and evidence into a decision record. A normal prompt can suggest an answer; this coach keeps the reasoning and final decision with you.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="setup-panel" id="setupPanel" hidden>
+        <div class="setup-scroll">
+          <div class="upload-zone material-panel">
+            <div class="upload-heading">
+              <label class="upload-icon" for="projectFile" aria-label="Upload project material" title="Upload project material">+</label>
+              <input id="projectFile" class="file-input" type="file" accept=".txt,.md,.csv,.json,.ino,.js,.py,.html,.css,.cpp,.c,.h,.log,.pdf,.docx" />
+              <div>
+                <strong>Project materials</strong>
+              </div>
+            </div>
+            <div class="setup-material-list" id="setupMaterialList" aria-label="Project materials">
+              <span class="uploaded-empty">No material yet</span>
+            </div>
+          </div>
+
+          <div class="setup-field">
+            <label for="projectGoal">Project Goal</label>
+            <textarea id="projectGoal" rows="3" placeholder="What are you trying to build, test or decide?"></textarea>
+          </div>
+
+          <div class="setup-field">
+            <label for="learningContent">What you want to learn?</label>
+            <textarea id="learningContent" rows="3" placeholder="What do you need to understand or learn next?"></textarea>
+          </div>
+
+          <div class="tag-label">Learning content type</div>
+          <div class="quick-tags">
+            <button type="button" data-learning-type="Concept" aria-label="Concept" title="Concept: a principle, idea or technical concept you need to understand.">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H7a3 3 0 0 0-3 3V5.5Z" />
+                <path d="M4 18.5A2.5 2.5 0 0 1 6.5 16H20" />
+                <path d="M8 7h8" />
+                <path d="M8 10h6" />
+              </svg>
+            </button>
+            <button type="button" data-learning-type="Method" aria-label="Method" title="Method: a design or engineering method you may use in the project.">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M6 6h.01" />
+                <path d="M10 6h8" />
+                <path d="M6 12h.01" />
+                <path d="M10 12h8" />
+                <path d="M6 18h.01" />
+                <path d="M10 18h8" />
+              </svg>
+            </button>
+            <button type="button" data-learning-type="Tool step" aria-label="Tool step" title="Tool step: a specific operation inside software, hardware or a tool.">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L4 17l3 3 5.3-5.3a4 4 0 0 0 5.4-5.4l-2.4 2.4-3-3 2.4-2.4Z" />
+                <path d="M5.5 18.5l2-2" />
+              </svg>
+            </button>
+            <button type="button" data-learning-type="AI output" aria-label="AI output" title="AI output: an AI-generated answer, plan, code, explanation or suggestion.">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M5 5h10a4 4 0 0 1 4 4v4a4 4 0 0 1-4 4H9l-4 3V5Z" />
+                <path d="M14 4l.7 1.8 1.8.7-1.8.7L14 9l-.7-1.8-1.8-.7 1.8-.7L14 4Z" />
+                <path d="M8 10h5" />
+                <path d="M8 13h7" />
+              </svg>
+            </button>
+          </div>
+
+          <section class="generation-tuning scaffold-settings" aria-labelledby="scaffoldSettingsTitle">
+            <div class="tuning-head tuning-row-head">
+              <div class="tuning-title"><span id="scaffoldSettingsTitle">Thinking detail</span><span class="setting-help" tabindex="0" role="img" aria-label="About Thinking detail" data-tooltip="Controls how deeply the coach unpacks each project judgement. Project complexity sets the final amount." ><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.4v5.6"/><path d="M12 16.6h.01"/></svg></span></div>
+            </div>
+            <input id="generationTemperature" type="range" min="0" max="100" value="50" aria-label="Thinking detail: lower gives fewer core reasoning nodes; higher adds deeper project reasoning" title="Move left for fewer core judgements. Move right for deeper reasoning and more project checks." />
+            <div class="tuning-head tuning-row-head">
+              <div class="tuning-title"><span>Exploration</span><span class="setting-help" tabindex="0" role="img" aria-label="About Exploration" data-tooltip="Controls how widely the coach looks beyond the immediate task for relevant evidence, risks and alternatives." ><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.4v5.6"/><path d="M12 16.6h.01"/></svg></span></div>
+            </div>
+            <input id="explorationTemperature" type="range" min="0" max="100" value="50" aria-label="Exploration: lower keeps support focused on the immediate task; higher adds relevant alternatives and overlooked project considerations" title="Move left to stay with the immediate task. Move right to surface relevant alternatives, risks and connections." />
+          </section>
+        </div>
+
+        <div class="setup-actions">
+          <button class="secondary" id="backToHomeButton" type="button">Back</button>
+          <button class="primary" id="startButton" type="button">Generate plan</button>
+        </div>
+      </section>
+
+      <section class="generating-panel" id="generatingPanel" hidden>
+        <div class="generation-card">
+          <div class="generation-orbit" aria-hidden="true">
+            <span></span>
+            <i></i>
+          </div>
+          <strong>Building your learning plan</strong>
+          <p id="generationStatus">Reading project context...</p>
+          <div class="generation-steps" aria-hidden="true">
+            <span class="active"></span>
+            <span></span>
+            <span></span>
+          </div>
+          <div class="generation-failure" id="generationFailure" hidden role="status" aria-live="polite">
+            <span class="generation-failure-icon" aria-hidden="true">!</span>
+            <div>
+              <strong id="generationFailureTitle">Plan generation could not finish</strong>
+              <p id="generationFailureText">Check your connection or Coach settings, then try again.</p>
+            </div>
+            <div class="generation-failure-actions">
+              <button class="secondary" id="generationFailureSettings" type="button" hidden>Coach settings</button>
+              <button class="secondary" id="generationFailureRetry" type="button">Try again</button>
+              <button class="primary" id="generationFailureUseBasic" type="button">Use basic plan</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="plan-panel" id="planPanel" hidden>
+        <div class="plan-block">
+          <div class="plan-heading">
+            <span>Learning Milestones</span>
+            <button class="plan-edit-button" id="planEditButton" type="button" aria-label="Edit learning milestones" title="Edit learning milestones">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4l10.5-10.5a2.2 2.2 0 0 0-3.1-3.1L5 16.8 4 20Z"/><path d="M14 7l3 3"/></svg>
+            </button>
+          </div>
+          <div class="plan-steps" id="planSteps">
+            <div class="plan-step-card selected"><span>1</span></div>
+            <div class="plan-step-card"><span>2</span></div>
+            <div class="plan-step-card"><span>3</span></div>
+          </div>
+          <div class="plan-detail" id="planDetail" aria-live="polite">
+            <span>Step detail</span>
+            <strong>Select a step</strong>
+            <p>View what this step helps you reason about.</p>
+          </div>
+          <div class="suggested-start">
+            <div class="suggested-start-head">
+            <span>Suggested start</span>
+              <button class="secondary" id="changeStartButton" type="button">Change</button>
+            </div>
+            <p class="start-summary" id="startFromText" title="Start from clarifying the first learning or verification need.">
+              <span aria-hidden="true"></span>Recommended start
+            </p>
+            <div class="start-options" id="startOptions" hidden></div>
+          </div>
+        </div>
+
+        <div class="plan-block">
+          <div class="plan-label">Coach support</div>
+          <p class="allow-intro">Choose what the Coach may do. Change this later.</p>
+          <div class="allow-box" id="allowBox">
+            <div>Coach support will be ready with your plan.</div>
+          </div>
+        </div>
+
+        <div class="plan-tuning">
+          <span id="planTuningLabel">Balanced generation</span>
+          <button class="secondary" id="regeneratePlanButton" type="button">Regenerate</button>
+        </div>
+
+        <div class="plan-actions">
+          <button class="secondary" id="backToSetupButton" type="button">Edit context</button>
+          <button class="primary" id="confirmPlanButton" type="button">Start</button>
+        </div>
+      </section>
+
+      <section class="path-panel" id="pathPanel" hidden>
+        <div class="path-title">
+          <span>Milestone path</span>
+          <div class="path-title-actions">
+            <button class="path-edit-button" id="pathEditButton" type="button" aria-label="Edit learning milestones" title="Edit learning milestones">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4l10.5-10.5a2.2 2.2 0 0 0-3.1-3.1L5 16.8 4 20Z"/><path d="M14 7l3 3"/></svg>
+            </button>
+            <span id="stepCount">1 / 7</span>
+          </div>
+        </div>
+        <div class="stage-controller" id="stageController"></div>
+        <div class="path" id="pathNodes"></div>
+      </section>
+
+      <section class="result-panel" id="resultPanel" hidden aria-label="Task learning record">
+        <div class="result-intro">
+          <span class="result-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M6 3h9l3 3v15H6z" /><path d="M9 13h6" /><path d="M9 17h4" /><path d="M14 3v4h4" /></svg>
+          </span>
+          <div>
+            <strong>Task learning record</strong>
+            <span>Completed</span>
+          </div>
+          <div class="result-header-tools">
+            <button class="result-header-action result-preview-action" id="resultPreviewButton" type="button" aria-label="Preview task learning record" title="Preview task learning record" aria-expanded="false">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.8 12s3.3-5.5 9.2-5.5 9.2 5.5 9.2 5.5-3.3 5.5-9.2 5.5S2.8 12 2.8 12Z"/><circle cx="12" cy="12" r="2.7"/></svg>
+              <span>Preview</span>
+            </button>
+          </div>
+        </div>
+
+        <section class="result-outcome" aria-labelledby="resultOutcomeLabel">
+          <div class="result-outcome-head">
+            <span id="resultOutcomeLabel">Task outcome</span>
+            <button id="resultEditLogic" type="button" title="Return to Build Logic">Edit logic</button>
+          </div>
+          <strong id="resultOutcomeTitle">Task outcome</strong>
+          <p id="resultOutcomeSummary"></p>
+        </section>
+
+        <section class="result-record-section result-next-section" aria-labelledby="resultNextLabel">
+          <div class="result-section-head">
+            <div class="result-next-heading">
+              <span class="result-label" id="resultNextLabel">Choose next action</span>
+            </div>
+            <div class="result-section-actions">
+              <button class="result-ai-edit-toggle result-tool-icon" id="resultAiEditButton" type="button" aria-label="Refine selected action with Coach" title="Refine selected action with Coach">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="7" width="14" height="11" rx="3"/><path d="M9 3h6M12 3v4M9 12h.01M15 12h.01M9 16h6"/></svg>
+              </button>
+              <button class="result-refresh-action result-tool-icon" id="resultGuidanceButton" type="button" aria-label="Regenerate next-action options" title="Regenerate next-action options">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 8a7 7 0 1 0 1 5"/><path d="M19 4v4h-4"/></svg>
+              </button>
+            </div>
+          </div>
+          <div class="result-next-summary" id="resultNextSummary"></div>
+          <div class="result-next-options" id="resultNextOptions"></div>
+          <div class="result-next-boundaries" id="resultNextBoundaries" hidden>
+            <div><span>Capture</span><p id="resultNextEvidence"></p></div>
+            <div><span>Revisit if</span><p id="resultNextRevisit"></p></div>
+          </div>
+          <input id="resultRationale" type="hidden" value="" />
+          <div class="result-ai-editor" id="resultAiEditor" hidden>
+            <div class="result-ai-messages" id="resultAiMessages"></div>
+            <div class="result-ai-compose">
+              <textarea id="resultAiInput" rows="2" placeholder="Describe what you want to change or clarify..."></textarea>
+              <button id="resultAiSend" type="button" aria-label="Send to Coach" title="Send to Coach">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 14-7-4 14-3-6-7-1Z"/><path d="m12 13 7-8"/></svg>
+              </button>
+            </div>
+            <button class="result-ai-apply" id="resultAiApply" type="button" hidden>Apply revision</button>
+          </div>
+          <div class="next-move-synthesis" id="resultNextMoveGuidance" hidden aria-live="polite"></div>
+        </section>
+
+        <div class="result-actions">
+          <button class="secondary" id="resultBackButton" type="button">Back to logic</button>
+          <button class="primary" id="resultSaveButton" type="button">Save &amp; generate</button>
+        </div>
+        <p class="result-save-status" id="resultSaveStatus" aria-live="polite"></p>
+
+        <div hidden aria-hidden="true">
+          <div id="resultChoiceGrid"></div>
+          <div id="resultDecisionCheck"></div>
+          <div id="resultEvidenceList"></div>
+        </div>
+      </section>
+
+      <div class="record-preview-overlay" id="resultPreviewWrap" hidden>
+        <div class="record-preview-dialog" role="dialog" aria-modal="true" aria-label="Task learning record preview">
+          <header>
+            <div><span>Document preview</span><strong>Task learning record</strong></div>
+            <button id="resultPreviewClose" type="button" aria-label="Close preview" title="Close preview">×</button>
+          </header>
+          <section class="record-preview-scroll" id="resultTaskPreview"></section>
+          <footer>
+            <button class="primary record-preview-download" id="resultExportButton" type="button">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v10"/><path d="m8 10 4 4 4-4"/><path d="M5 19h14"/></svg>
+              Download record
+            </button>
+          </footer>
+        </div>
+      </div>
+
+      <section class="step-panel" id="stepPanel" hidden>
+        <div class="step-card">
+          <div class="step-label" id="stepLabel">Step</div>
+          <h2 id="stepTitle"></h2>
+          <p id="stepPrompt"></p>
+        </div>
+
+        <div class="interaction-area" id="interactionArea"></div>
+
+        <button class="secondary full" id="generateButton" type="button">Ask Coach</button>
+
+        <div class="coach-response" id="coachResponse" hidden>
+          <div class="coach-response-head">
+            <div class="coach-response-title">Coach comment</div>
+            <div class="coach-turns" id="coachTurns" aria-label="Coach comment progress"></div>
+            <button class="coach-response-close" id="coachDismissButton" type="button" aria-label="Close coach comment" title="Close coach comment">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" /></svg>
+            </button>
+          </div>
+          <p id="coachText"></p>
+          <p class="coach-question" id="coachQuestion"></p>
+          <div class="coach-options" id="coachOptions"></div>
+          <div class="coach-reply">
+            <input id="coachReplyInput" type="text" placeholder="Optional note for your reasoning record..." />
+            <button id="coachReplyButton" type="button" aria-label="Save note" title="Save note">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="m5 12 4 4L19 6" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <textarea id="rationaleText" hidden></textarea>
+
+      <footer class="coach-footer" id="coachFooter" hidden>
+        <div class="ask-row">
+          <input id="coachInput" type="text" placeholder="Ask a follow-up..." />
+          <button id="coachButton" type="button" aria-label="Ask coach">↗</button>
+        </div>
+        <button class="primary flow-next" id="nextButton" type="button" hidden>Next</button>
+      </footer>
+    </aside>
+  </main>
+
+  <script src="./app.js"></script>
+</body>
+</html>
